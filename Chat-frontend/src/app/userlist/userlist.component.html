@@ -1,0 +1,14 @@
+<div>
+    <select>
+        <!-- (selectionChange)="select(users.selectedOptions.selected[0]?.value)" -->
+      <option *ngFor="let user of displayed" [value]="user.user" style="display: inline-block;">
+        <div style="display: inline-block; color: forestgreen;" *ngIf="user.active">
+          {{user.user}}
+        </div>
+        <div style="display: inline-block;" *ngIf="!user.active">
+          {{user.user}}
+        </div>
+      </option>
+    </select>
+  </div>
+  

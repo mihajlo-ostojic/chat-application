@@ -1,0 +1,10 @@
+<div color="primary" style="min-width: 100%; max-width: max-content;"> 
+  <span style="width: 10px;"></span>
+  <span font-color="white" style="margin-left: 10px;">Chat application</span>
+  <span style="flex: 1 1 auto;" name="unauthenticated-user">
+    <button style="float: right;" mat-button routerLink="../" *ngIf="this.userService.isLoggedIn()" (click) = "this.userService.logout()">
+      Log Out
+    </button>
+  </span>
+</div>
+<router-outlet></router-outlet>
