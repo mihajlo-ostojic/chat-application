@@ -2,49 +2,103 @@ package models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
-public class Message implements Serializable {
-	
+public class Message implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	
-	private User receiver;
-	private User sender;
-	private LocalDateTime created;
-	private String subject;
+	private String sender;
+	private String reciver;
 	private String content;
+	private String date;
+	private String subject;
+	private String id;
+		
+	public Message() {}
 	
-	public Message()
-	{}
 	
-	public User getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
-	}
-	public User getSender() {
-		return sender;
-	}
-	public void setSender(User sender) {
+	public Message(String sender, String reciver, String content) {
+		super();
 		this.sender = sender;
+		this.reciver = reciver;
+		this.content = content;
 	}
-	public LocalDateTime getCreated() {
-		return created;
+
+	
+	public Message(String sender, String reciver, String content, String date, String subject) {
+		super();
+		this.sender = sender;
+		this.reciver = reciver;
+		this.content = content;
+		this.date = date;
+		this.subject = subject;
 	}
-	public void setCreated(LocalDateTime created) {
-		this.created = created;
+
+
+	public String getDate() {
+		return date;
 	}
+
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+
 	public String getSubject() {
 		return subject;
 	}
+
+
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+
+
+
+	public String getId() {
+		return id;
+	}
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
+	public String getReciver() {
+		return reciver;
+	}
+
+	public void setReciver(String reciver) {
+		this.reciver = reciver;
+	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return sender+","+reciver+","+content+","+date+","+subject;
+	}
 }

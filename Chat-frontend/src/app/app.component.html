@@ -1,8 +1,8 @@
-<div color="primary" style="min-width: 100%; max-width: max-content;"> 
+<div color="primary" style="min-width: 100%; max-width: max-content; background-color: antiquewhite;height: 35px;"> 
   <span style="width: 10px;"></span>
-  <span font-color="white" style="margin-left: 10px;">Chat application</span>
+  <span font-color="white" style="margin-left: 10px;font-size: 25px;">Chat with users</span>
   <span style="flex: 1 1 auto;" name="unauthenticated-user">
-    <button style="float: right;" mat-button routerLink="../" *ngIf="this.userService.isLoggedIn()" (click) = "this.userService.logout()">
+    <button style="float: right;font-size: 20px;" mat-button routerLink="../" *ngIf="this.userService.isLoggedIn()" (click) = "this.userService.logout()">
       Log Out
     </button>
   </span>

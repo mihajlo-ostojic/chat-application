@@ -19,6 +19,7 @@ public class WSChat {
 	
 	@OnOpen
 	public void onOpen(@PathParam("username") String username, Session session) {
+		System.out.println("username u onOpen: " + username);
 		sessions.put(username, session);
 	}
 	

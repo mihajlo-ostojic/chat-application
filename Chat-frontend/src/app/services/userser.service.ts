@@ -14,12 +14,19 @@ export class UserserService {
     this.password = "";
   }
 
+  getUsername()
+  {
+    return this.username;
+  }
+
   login(username:any, password:any) {
     this.username = username;
     this.password = password;
     var data:any = new Object();
     data['username'] = username;
     data['password'] = password;
+    data['id'] = localStorage.getItem("sessionId");
+    console.log("Sessioin id za login je :"+localStorage.getItem("sessionId"));
     this.http.post('http://localhost:8080/Chat-war/api/chat/login', data).subscribe((result) => {
       console.log("Rezultat logina je :"+result);
       // let data2 = JSON.parse(result);
@@ -49,15 +56,25 @@ export class UserserService {
     var data:any = new Object();
     data['username'] = username;
     data['password'] = password;
+    data['id'] = localStorage.getItem("sessionId");
+    console.log("Sessioin id je :"+localStorage.getItem("sessionId"));
     this.http.post('http://localhost:8080/Chat-war/api/chat/register', data, {headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
   }
 
   getRegistered() {
-    this.http.get('http://localhost:8080/Chat-war/api/chat/registered' ).subscribe();
+    console.log("Trazim registrovane Sessioin id je :"+localStorage.getItem("sessionId"));
+    var data:String = localStorage.getItem("sessionId")||"";
+    
+    this.http.post('http://localhost:8080/Chat-war/api/chat/registered',data,{headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
+    // this.http.get('http://localhost:8080/Chat-war/api/chat/registered/'+ localStorage.getItem("sessionId")).subscribe();
   }
 
   getLoggedIn() {
-    this.http.get('http://localhost:8080/Chat-war/api/chat/loggedIn').subscribe();
+    
+    console.log("Trazim logovane Sessioin id je :"+localStorage.getItem("sessionId"));
+    var data:String = localStorage.getItem("sessionId")||"";
+    this.http.post('http://localhost:8080/Chat-war/api/chat/loggedIn',data,{headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
+    // this.http.get('http://localhost:8080/Chat-war/api/chat/loggedIn/'+ localStorage.getItem("sessionId")).subscribe();
   }
 
   isLoggedIn() {

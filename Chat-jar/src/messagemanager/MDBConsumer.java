@@ -1,5 +1,8 @@
 package messagemanager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
@@ -35,8 +38,18 @@ public class MDBConsumer implements MessageListener {
 		String receiver;
 		try {
 			receiver = (String) message.getObjectProperty("receiver");
+			String sender = (String)  message.getObjectProperty("sender");
+			String content = (String) message.getObjectProperty("content");
+			String date = (String) message.getObjectProperty("date");
+			String subject = (String) message.getObjectProperty("subject");
+			System.out.println("salje se poruka za "+receiver);
+			HashMap<String,Agent> angenti = cachedAgents.getRunningAgents();
+			ArrayList<String> keyList = new ArrayList<String>(cachedAgents.getRunningAgents().keySet());
 			Agent agent = (Agent) cachedAgents.getRunningAgents().get(receiver);
 			agent.handleMessage(message);
+			
+		
+
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

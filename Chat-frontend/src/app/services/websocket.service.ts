@@ -8,7 +8,7 @@ import { EMPTY, Subject } from 'rxjs';
 })
 export class WebsocketService {
 
-  private WS_ENDPOINT : string = 'ws://localhost:8080/Chat-war/ws/chat';
+  private WS_ENDPOINT : string = 'ws://localhost:8080/Chat-war/ws/';
 
   private socket$!: WebSocketSubject<any>;
   private messagesSubject$ = new Subject<any>();
@@ -31,7 +31,15 @@ export class WebsocketService {
   }
   
   private getNewWebSocket() {
-    return webSocket({url: this.WS_ENDPOINT, deserializer: msg => msg.data});
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 5; i++){
+       text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    // var text = "chat";
+    localStorage.setItem("sessionId", text);
+    return webSocket({url: this.WS_ENDPOINT+localStorage.getItem("sessionId"), deserializer: msg => msg.data});
   }
 
   sendMessage(msg: any) {

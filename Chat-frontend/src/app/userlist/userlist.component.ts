@@ -58,21 +58,41 @@ export class UserlistComponent implements OnInit {
   setUpDisplayedUsers() {
     this.displayed = [];
     for(var user of this.registered) {
-      if(this.loggedIn.includes(user))
+      if(this.isINLOGED(user)){
         this.displayed.push({'user':user, 'active':true})
-      else
+        // console.log("dodat u listu logovanih " + user)
+      }else {
         this.displayed.push({'user':user, 'active':false})
+        // console.log("dodat u listu nelogovanih " + user)
+      }
     }
     if(this.selected == null && this.displayed.length > 0) {
       this.select(this.displayed[0]['user']);
     }
   }
 
+  isINLOGED(usename:any): boolean{
+    // console.log("proverava za "+ usename)
+    for(var u in this.loggedIn)
+    {
+      if(this.loggedIn[u]===usename){
+        // console.log("jeste logovan "+ usename)
+        return true;
+      }
+    }
+    return false;
+  }
+
+  onChange(val:any) {
+    console.log(JSON.parse(val));
+}
+
   sendMessage() {
     this.messageEvent.emit(this.selected)
   }
 
   select(user : string) {
+    console.log("selektovan korisnik:" + user)
     this.selected = user;
     this.sendMessage();
   }

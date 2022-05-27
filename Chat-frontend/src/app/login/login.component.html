@@ -3,22 +3,24 @@
     <div style="margin-top: 10%; width: 40%; height: 60%; display: flex; justify-content: center; align-items: center; height: max-content; padding-top: 20px; opacity: 85%;">
             <form style="width: 80%;" novalidate>
     
+                <div style="background-color: antiquewhite;height: 35px; padding: 10px;padding-left: 100px;">
                 <div >
                   
-                      <label>Username</label>
-                      <input  required id="usernameInput" style="height: 40%;" #name = "ngModel" name="c1" [(ngModel)] = "username"/>
+                      <label style="padding-right: 10px;">Username</label>
+                      <input matInput  required id="usernameInput" style="height: 40%;" #name = "ngModel" name="c1" [(ngModel)] = "username"/>
                   
                 </div>
                 <div >
                     <div style="width:100%;">
-                        <label>Password</label>
-                        <input  required id="passwordInput" style="height: 40%;" #name2 = "ngModel" name="c2" [(ngModel)] = "password" type="password"/>
+                        <label style="padding-right: 10px;">Password</label>
+                        <input matInput  required id="passwordInput" style="height: 40%;" #name2 = "ngModel" name="c2" [(ngModel)] = "password" type="password"/>
                     </div>
+                </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                  <button id="loginButton" [disabled] ="name.invalid || name2.invalid" mat-raised-button color="primary" type="submit" style="padding: 12px 32px; margin-right: 20px;" (click)="login()">Log in</button>
-                  <button id="signupButton" [disabled] ="name.invalid || name2.invalid" mat-raised-button color="accent" type="submit" style="padding: 12px 32px; " (click)="signup()">Sign up</button>
+                  <button id="loginButton" [disabled] ="name.invalid || name2.invalid"  color="primary" type="submit" style="padding: 12px 32px; margin-right: 20px;" (click)="login()">Log in</button>
+                  <button id="signupButton" [disabled] ="name.invalid || name2.invalid"  color="accent" type="submit" style="padding: 12px 32px; " (click)="signup()">Sign up</button>
                 </div>
       
             </form>

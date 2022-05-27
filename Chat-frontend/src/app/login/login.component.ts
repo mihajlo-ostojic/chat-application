@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserserService } from '../services/userser.service';
 import { WebsocketService } from '../services/websocket.service';
 import { Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   liveData$ = this.wsService.messages$;
 
-  constructor( private wsService : WebsocketService, private userService : UserserService, private router : Router) { 
+  constructor( private wsService : WebsocketService, private userService : UserserService, private router : Router,private toastr: ToastrService) { 
 
     this.username = "";
     this.password = "";
@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['chat']);
     }
     else {
+
       console.log("login handle")
     }
 
@@ -64,6 +65,16 @@ export class LoginComponent implements OnInit {
   }
 
   handleRegistration(message : string) {
+
+    if(message.startsWith('OK ')) {
+      alert("Register successful");
+      this.toastr.success(message, "title",{ positionClass: 'toast-top-right'})
+    }
+    else {
+      alert("User is already registered");
+      this.toastr.error("User registration failed.","error",{ positionClass: 'toast-top-right'})
+
+    }
     console.log("registration handle:" + message)
     console.log("register prosao!"+message);
   }
