@@ -58,6 +58,7 @@ export class UserlistComponent implements OnInit {
   setUpDisplayedUsers() {
     this.displayed = [];
     for(var user of this.registered) {
+      if(user!=this.userService.getUsername()){
       if(this.isINLOGED(user)){
         this.displayed.push({'user':user, 'active':true})
         // console.log("dodat u listu logovanih " + user)
@@ -65,6 +66,7 @@ export class UserlistComponent implements OnInit {
         this.displayed.push({'user':user, 'active':false})
         // console.log("dodat u listu nelogovanih " + user)
       }
+    }
     }
     if(this.selected == null && this.displayed.length > 0) {
       this.select(this.displayed[0]['user']);
@@ -88,6 +90,8 @@ export class UserlistComponent implements OnInit {
 }
 
   sendMessage() {
+    console.log("dogadjaj obavestavanja selekcije ")
+    console.log(JSON.stringify(this.selected))
     this.messageEvent.emit(this.selected)
   }
 

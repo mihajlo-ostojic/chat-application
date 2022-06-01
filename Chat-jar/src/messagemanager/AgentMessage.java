@@ -14,4 +14,13 @@ public class AgentMessage implements Serializable {
 	public AgentMessage() {
 		userArgs = new HashMap<>();
 	}
+	
+	public Map<String, Serializable> getUserArgs()
+	{
+		return userArgs;
+	}
+	public Serializable getUserArg(String arg)
+	{
+		return userArgs.get(arg);
+	}
 }

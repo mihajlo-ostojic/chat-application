@@ -16,6 +16,7 @@
             <div style="padding: 20px;">
               <div *ngIf="element.incoming === 'true'"> Sender: {{element.otherUsername}}: </div>
               <div *ngIf="element.incoming === 'false'">Sender: You </div>
+              <div style="word-break: break-all;"> Date: {{element.date}} </div>
               <div style="word-break: break-all;"> Subject: {{element.subject}} </div>
               <div style="word-break: break-all;"> Content: {{element.content}} </div>
             </div>

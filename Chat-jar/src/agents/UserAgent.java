@@ -47,8 +47,90 @@ public class UserAgent implements Agent {
 		chatMessages = new ChatMessages();
 	}
 	
-	@Override
-	public void handleMessage(Message msg) {
+	public void handleMessage(AgentMessage msg) {
+//		TextMessage tmsg = (TextMessage) msg;
+		String receiver;
+		String sender;
+		String message;
+		try {
+			receiver = (String) msg.getUserArg("receiver");
+			sender = (String) msg.getUserArg("sender");
+			message = (String) msg.getUserArg("message");
+			if (receiver.equals(agentId)) {
+				System.out.println("Received from :" + sender);
+				
+				
+				String option = "";
+				String response = "";
+				try {
+					option = (String) msg.getUserArg("command");
+					switch (option) {
+					case "RECIVE_MESSAGE":
+						String temp = (String) msg.getUserArg("content");
+						String subjecttemp = (String) msg.getUserArg("subject");
+						String datetemp = (String) msg.getUserArg("date");
+						models.Message newMsg = new models.Message(sender,receiver,temp,datetemp,subjecttemp);
+						chatMessages.receiveMessage(newMsg);
+						response = "message:"+newMsg.toString();
+						String idGnenta = getAgentId();
+						String idSesije = chatManager.getSessionId(idGnenta);
+						
+						ws.onMessage(idSesije, response);
+						break;
+					case "GET":
+						
+						String  sessionId = (String) msg.getUserArg("sessionId");
+						String  who = (String) msg.getUserArg("sender");
+						
+						response = "messages:";
+						for (models.Message mess : chatMessages.getChatForUser(who)) {
+							response +=  mess.toString()+"|";
+						}
+						ws.onMessage(sessionId, response);
+						break;
+					case "NEW_REGISTER":
+						sessionId = (String) msg.getUserArg("sessionId");
+						response = "registeredList:";
+						List<User> users2 = chatManager.regeisteredUsers();
+						for (User u : users2) {
+							response += u.getUsername() + "|";
+						}
+						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						break;
+					case "NEW_LOGIN":
+						sessionId = (String) msg.getUserArg("sessionId");
+						response = "loggedInList:";
+						List<User> users = chatManager.loggedInUsers();
+						for (User u : users) {
+							response += u.getUsername() + "|";
+						}
+						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						break;
+					case "NEW_LOGOUT":
+						sessionId = (String) msg.getUserArg("sessionId");
+						response = "loggedInList:";
+						List<User> users3 = chatManager.loggedInUsers();
+						for (User u : users3) {
+							response += u.getUsername() + "|";
+						}
+						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						break;
+					default:
+						response = "ERROR!Option: " + option + " does not exist.";
+						break;
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*public void handleMessage(Message msg) {
 		TextMessage tmsg = (TextMessage) msg;
 		String receiver;
 		String sender;
@@ -56,7 +138,7 @@ public class UserAgent implements Agent {
 		try {
 			receiver = (String) tmsg.getObjectProperty("receiver");
 			sender = (String) tmsg.getObjectProperty("sender");
-//			message = (String) tmsg.getObjectProperty("message");
+			message = (String) tmsg.getObjectProperty("message");
 			if (receiver.equals(agentId)) {
 				System.out.println("Received from :" + sender);
 				
@@ -126,7 +208,7 @@ public class UserAgent implements Agent {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	@Override
 	public String init() {

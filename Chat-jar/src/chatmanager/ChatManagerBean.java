@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.Singleton;
 import javax.ejb.Stateful;
 
 import agentmanager.AgentManagerRemote;
@@ -18,7 +19,7 @@ import util.JNDILookup;
 /**
  * Session Bean implementation class ChatBean
  */
-@Stateful
+@Singleton
 @LocalBean
 public class ChatManagerBean implements ChatManagerRemote, ChatManagerLocal {
 
@@ -57,14 +58,14 @@ public class ChatManagerBean implements ChatManagerRemote, ChatManagerLocal {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public boolean login(String username, String password, String id) {
 		boolean exists = registered.stream().anyMatch(u->u.getUsername().equals(username) && u.getPassword().equals(password));
 		if(exists) {
 			
 			for (User u : loggedIn) {
 				if(u.getUsername()==username) return false;
 			}
-			loggedIn.add(new User(username, password));
+			loggedIn.add(new User(username, password, id));
 			agentManager.startAgent(username,JNDILookup.UserAgentLookup);
 			
 			return true;

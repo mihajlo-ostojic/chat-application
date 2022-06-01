@@ -43,13 +43,24 @@ export class MessagesService {
   }
 
   getMessages() {
-    // var data:any = new Object();
-    // data['sender'] = this.userService.getUsername();
-    // data['reciver'] = this.userService.getUsername();
-    // data['content'] = "content";
-    // data['date'] = "date"
-    // data['subject'] = "subject";
-    // data['id'] = localStorage.getItem("sessionId");
-    // this.http.post("http://localhost:8080/Chat-war/api/chat/get" ,data ,{headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
+    var data:any = new Object();
+    data['sender'] = this.userService.getUsername();
+    data['reciver'] = this.userService.getUsername();
+    data['content'] = "content";
+    data['date'] = "date"
+    data['subject'] = "subject";
+    data['id'] = localStorage.getItem("sessionId");
+    this.http.post("http://localhost:8080/Chat-war/api/chat/get" ,data ,{headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
+  }
+
+  getMessagesForUsername(username:string) {
+    var data:any = new Object();
+    data['sender'] = username;
+    data['reciver'] = this.userService.getUsername();
+    data['content'] = "content";
+    data['date'] = "date"
+    data['subject'] = "subject";
+    data['id'] = localStorage.getItem("sessionId");
+    this.http.post("http://localhost:8080/Chat-war/api/chat/get" ,data ,{headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).subscribe();
   }
 }

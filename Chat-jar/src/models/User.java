@@ -43,6 +43,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
+	public User(String username, String password, String id) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+	
 	public User() {}
 
 	@Override
