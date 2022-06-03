@@ -14,6 +14,7 @@ public class Message implements Serializable{
 	private String date;
 	private String subject;
 	private String id;
+	private String realReciver;
 		
 	public Message() {}
 	
@@ -34,6 +35,19 @@ public class Message implements Serializable{
 		this.date = date;
 		this.subject = subject;
 	}
+	
+	
+
+
+	public Message(String sender, String reciver, String content, String date, String subject, String realReciver) {
+		super();
+		this.sender = sender;
+		this.reciver = reciver;
+		this.content = content;
+		this.date = date;
+		this.subject = subject;
+		this.realReciver = realReciver;
+	}
 
 
 	public String getDate() {
@@ -46,6 +60,15 @@ public class Message implements Serializable{
 		this.date = date;
 	}
 
+
+	public String getRealReciver() {
+		return realReciver;
+	}
+
+
+	public void setRealReciver(String realReciver) {
+		this.realReciver = realReciver;
+	}
 
 
 	public String getSubject() {

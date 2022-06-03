@@ -57,7 +57,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     ToastrModule.forRoot({
       timeOut: 3500,
-      positionClass: 'toast-bottom-center',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
   }),
   ],

@@ -69,13 +69,16 @@ public class UserAgent implements Agent {
 						String temp = (String) msg.getUserArg("content");
 						String subjecttemp = (String) msg.getUserArg("subject");
 						String datetemp = (String) msg.getUserArg("date");
-						models.Message newMsg = new models.Message(sender,receiver,temp,datetemp,subjecttemp);
+						String realsender = (String) msg.getUserArg("realsender");
+						models.Message newMsg = new models.Message(sender,receiver,temp,datetemp,subjecttemp, realsender);
 						chatMessages.receiveMessage(newMsg);
+						if(realsender!=null)
+							newMsg.setSender("ALL");
 						response = "message:"+newMsg.toString();
 						String idGnenta = getAgentId();
 						String idSesije = chatManager.getSessionId(idGnenta);
-						
-						ws.onMessage(idSesije, response);
+						if(idSesije.length()!=0)
+							ws.onMessage(idSesije, response);
 						break;
 					case "GET":
 						
@@ -84,6 +87,8 @@ public class UserAgent implements Agent {
 						
 						response = "messages:";
 						for (models.Message mess : chatMessages.getChatForUser(who)) {
+							if(who.equals("ALL"))
+								mess.setSender("ALL");
 							response +=  mess.toString()+"|";
 						}
 						ws.onMessage(sessionId, response);
@@ -95,7 +100,11 @@ public class UserAgent implements Agent {
 						for (User u : users2) {
 							response += u.getUsername() + "|";
 						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						idGnenta = getAgentId();
+						idSesije = chatManager.getSessionId(idGnenta);
+						if(idSesije.length()!=0)
+							ws.onMessage(idSesije, response);
+//						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
 						break;
 					case "NEW_LOGIN":
 						sessionId = (String) msg.getUserArg("sessionId");
@@ -104,7 +113,11 @@ public class UserAgent implements Agent {
 						for (User u : users) {
 							response += u.getUsername() + "|";
 						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						idGnenta = getAgentId();
+						idSesije = chatManager.getSessionId(idGnenta);
+						if(idSesije.length()!=0)
+							ws.onMessage(idSesije, response);
+//						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
 						break;
 					case "NEW_LOGOUT":
 						sessionId = (String) msg.getUserArg("sessionId");
@@ -113,7 +126,11 @@ public class UserAgent implements Agent {
 						for (User u : users3) {
 							response += u.getUsername() + "|";
 						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
+						idGnenta = getAgentId();
+						idSesije = chatManager.getSessionId(idGnenta);
+						if(idSesije.length()!=0)
+							ws.onMessage(idSesije, response);
+//						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
 						break;
 					default:
 						response = "ERROR!Option: " + option + " does not exist.";
@@ -130,85 +147,7 @@ public class UserAgent implements Agent {
 		}
 	}
 	
-	/*public void handleMessage(Message msg) {
-		TextMessage tmsg = (TextMessage) msg;
-		String receiver;
-		String sender;
-		String message;
-		try {
-			receiver = (String) tmsg.getObjectProperty("receiver");
-			sender = (String) tmsg.getObjectProperty("sender");
-			message = (String) tmsg.getObjectProperty("message");
-			if (receiver.equals(agentId)) {
-				System.out.println("Received from :" + sender);
-				
-				
-				String option = "";
-				String response = "";
-				try {
-					option = (String) tmsg.getObjectProperty("command");
-					switch (option) {
-					case "RECIVE_MESSAGE":
-						String temp = (String) tmsg.getObjectProperty("content");
-						String subjecttemp = (String) tmsg.getObjectProperty("subject");
-						String datetemp = (String) tmsg.getObjectProperty("date");
-						models.Message newMsg = new models.Message(sender,receiver,temp,datetemp,subjecttemp);
-						chatMessages.receiveMessage(newMsg);
-						response = "message:"+newMsg.toString();
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
-						break;
-					case "GET":
-						
-						String  sessionId = (String) tmsg.getObjectProperty("sessionId");
-						String  who = (String) tmsg.getObjectProperty("who");
-						
-						response = "messages:";
-						for (models.Message mess : chatMessages.getChatForUser(who)) {
-							response +=  mess.toString()+"|";
-						}
-						ws.onMessage(sessionId, response);
-						break;
-					case "NEW_REGISTER":
-						sessionId = (String) tmsg.getObjectProperty("sessionId");
-						response = "registeredList:";
-						List<User> users2 = chatManager.regeisteredUsers();
-						for (User u : users2) {
-							response += u.getUsername() + "|";
-						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
-						break;
-					case "NEW_LOGIN":
-						sessionId = (String) tmsg.getObjectProperty("sessionId");
-						response = "loggedInList:";
-						List<User> users = chatManager.loggedInUsers();
-						for (User u : users) {
-							response += u.getUsername() + "|";
-						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
-						break;
-					case "NEW_LOGOUT":
-						sessionId = (String) tmsg.getObjectProperty("sessionId");
-						response = "loggedInList:";
-						List<User> users3 = chatManager.loggedInUsers();
-						for (User u : users3) {
-							response += u.getUsername() + "|";
-						}
-						ws.onMessage(chatManager.getSessionId(getAgentId()), response);
-						break;
-					default:
-						response = "ERROR!Option: " + option + " does not exist.";
-						break;
-					}
-					
-				} catch (JMSException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		} catch (JMSException e) {
-			e.printStackTrace();
-		}
-	}*/
+
 
 	@Override
 	public String init() {

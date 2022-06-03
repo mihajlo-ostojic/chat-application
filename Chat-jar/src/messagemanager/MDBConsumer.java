@@ -46,6 +46,7 @@ public class MDBConsumer implements MessageListener {
 			String sessionId = (String) message.getObjectProperty("sessionId");
 			String username = (String) message.getObjectProperty("username");
 			String password = (String) message.getObjectProperty("password");
+			String realsender = (String) message.getObjectProperty("realsender");
 			System.out.println("salje se poruka za "+receiver);
 			HashMap<String,Agent> angenti = cachedAgents.getRunningAgents();
 			ArrayList<String> keyList = new ArrayList<String>(cachedAgents.getRunningAgents().keySet());
@@ -59,6 +60,7 @@ public class MDBConsumer implements MessageListener {
 			newMsg.userArgs.put("sessionId", sessionId);
 			newMsg.userArgs.put("username", username);
 			newMsg.userArgs.put("password", password);
+			newMsg.userArgs.put("realsender", realsender);
 			Agent agent = (Agent) cachedAgents.getRunningAgents().get(receiver);
 			agent.handleMessage(newMsg);
 			

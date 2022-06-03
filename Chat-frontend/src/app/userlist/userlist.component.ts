@@ -68,6 +68,7 @@ export class UserlistComponent implements OnInit {
       }
     }
     }
+    this.displayed.push({'user':"ALL", 'active':true})
     if(this.selected == null && this.displayed.length > 0) {
       this.select(this.displayed[0]['user']);
     }

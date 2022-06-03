@@ -4,6 +4,7 @@ import { WebsocketService } from '../services/websocket.service';
 import { UserserService } from '../services/userser.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-messages',
@@ -12,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class MessagesComponent implements OnInit {
 
-  constructor(private messageService : MessagesService, private wsService : WebsocketService, private userService : UserserService) { }
+  constructor(private messageService : MessagesService, private wsService : WebsocketService, private userService : UserserService, private toasterService: ToastrService) { }
 
   liveData$ = this.wsService.messages$;
 
@@ -38,6 +39,7 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // this.allMessages = []
     this.messageService.getMessagesForUsername(this.selected)
     this.setUpDisplayedMessages();
   }
@@ -88,12 +90,13 @@ export class MessagesComponent implements OnInit {
     let data:dto;
     console.log("sad su podeljenje: " + JSON.stringify(all));
     // sender+","+reciver+","+content+","+date+","+subject
+    
     for (let msg of all)
     {
       split = msg.split(",")
       
       data = new dto(split[0],true,split[4],split[2],split[3])
-      console.log("dodaje se poruka: " + JSON.stringify(data));
+      // console.log("dodaje se poruka: " + JSON.stringify(data));
       this.allMessages.push(data);
     }
     
@@ -104,16 +107,22 @@ export class MessagesComponent implements OnInit {
     console.log("Stigla poruka: " + message);
     var all = message.split(',');
     let data:dto;
-    console.log("all is: " + JSON.stringify(all))
+    // console.log("all is: " + JSON.stringify(all))
     let splitAgain = all[0].split(':');
+    this.toasterService.show("Stigla je nova poruka od "+splitAgain[1]);
     data = new dto(splitAgain[1],true,all[4],all[2],all[3])
-    console.log(JSON.stringify(data))
+    // console.log(JSON.stringify(data))
     this.allMessages.push(data);
-    console.log(JSON.stringify(this.allMessages))
+    // console.log(JSON.stringify(this.allMessages))
     this.setUpDisplayedMessages();
   }
 
   send() {
+    if(this.selected==="ALL")
+    {
+      alert("To send messages to all, click the button all");
+      return;
+    }
     console.log("selektovano: "+this.selected)
     this.messageService.send(this.userService.getUsername(),this.selected, this.content,this.subject)
     this.subject = ""

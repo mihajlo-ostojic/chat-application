@@ -79,6 +79,7 @@ public class ChatRestBean implements ChatRest {
 	public void sendToAll(Message msg) {
 		AgentMessage message = new AgentMessage();
 		message.userArgs.put("sessionId",msg.getId());
+		message.userArgs.put("realsender", "ALL");
 		message.userArgs.put("sender", msg.getSender());
 		message.userArgs.put("receiver", "chat");
 		message.userArgs.put("command", "SEND_ALL");
@@ -116,7 +117,9 @@ public class ChatRestBean implements ChatRest {
 		System.out.println("zasto salje: "+msg.getSubject());
 		
 		messageManager.post(message);
-		
+		message.userArgs.put("sender", msg.getReciver());
+		message.userArgs.put("receiver", msg.getSender());
+		messageManager.post(message);
 	}
 
 	@Override

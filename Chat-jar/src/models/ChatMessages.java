@@ -30,8 +30,9 @@ public class ChatMessages implements Serializable{
 	
 	public void receiveMessage(Message message) {
 		String sender = message.getSender();
-		String reciver = message.getReciver();
-		if (reciver.equals("ALL")) {
+//		String reciver = message.getReciver();
+		String reciverreal = message.getRealReciver();
+		if (reciverreal != null) {
 			chats.get("ALL").add(message);
 		} else {
 			if (!chats.containsKey(sender)) {
